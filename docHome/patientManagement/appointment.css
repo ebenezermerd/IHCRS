@@ -1,0 +1,135 @@
+.classList {
+  position: relative;
+  width: 90%;
+  left: 2%;
+  top: 8%;
+  padding: 10px;
+  border-radius: 45px;
+  box-shadow: 2px 14px 28px rgba(34, 68, 68, 0.63) , 3px 10px 10px rgba(14, 61, 70, 0.445);
+}
+.search-bar {
+    position: -webkit-sticky;
+    width: 300px;
+    height: 40px;
+    margin: 0 auto;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 1rem;
+    display: gird ;
+    
+  }
+  .search-bar input[type="text"] {
+    width: 43%;
+    height: 2rem;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    position: fixed;
+    top: 2.5rem;
+  }
+  
+  .search-bar input[type="submit"] {
+    position:fixed;
+    top: 3rem;
+    right: 26%; 
+    width: 7rem;
+    height: 41px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    
+  }
+  
+  .search-bar.hidden {
+    display:none;
+  }
+      .patient-records {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr;
+        grid-template-rows: auto 1fr 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+      }
+  
+      .menu {
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+      }
+  
+      .menu {
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+      }
+    
+      .menu ul {
+        list-style: none;
+        padding-left: 25px;
+      }
+    
+      .menu ul li {
+        margin: 8px 0;
+      }
+    
+      .menu a {
+        display: block;
+        padding: 10px;
+        background-color: #eee;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+    
+      .menu li,a:hover {
+        background-color: #ddd;
+      }
+    
+      .records-table {
+        grid-column: 2 / 3;
+        grid-row: 2;
+        margin-bottom: 20px;
+      }
+      .records-table th {
+        color: #333;
+      }
+  
+      .records-table table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+  
+      .records-table th,
+      .records-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+  
+      .records-table th {
+        background-color: #eee;
+      }
+  
+  .menu ul.hidden {
+    display: none;
+  }
+  .patient-management p,.search-patient {
+        display: block;
+        padding: 10px;
+        background-color: #eee;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+  li .se
+      .patient-management h3:hover {
+        background-color: #ddd;
+      }
+      #curr {
+        background-color: #3e8e41;
+        color: #ccc;
+        border-radius: 5px;
+    }

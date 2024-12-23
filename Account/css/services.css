@@ -1,0 +1,13 @@
+
+.wrapper {
+  font-family: "raleway";
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3) url(../images/sight.jpg);
+  background-attachment: fixed;
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-size: cover;
+}  
+
+
+

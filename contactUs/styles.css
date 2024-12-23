@@ -1,0 +1,111 @@
+.classList {
+  position: relative;
+  width: 90%;
+  left: 2%;
+  top: 10rem;
+  padding: 10px;
+  border-radius: 45px;
+  box-shadow: 2px 14px 28px rgba(34, 68, 68, 0.63) , 3px 10px 10px rgba(14, 61, 70, 0.445);
+}
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.patient-table th, 
+.patient-table td, 
+.approved-patients-table th,
+.approved-patients-table td {
+  padding: 10px;
+  border: 1px solid #ffffff;
+}
+
+.patient-form {
+  margin-top: 20px;
+}
+
+.form-column legend {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/* Rest of the CSS styles from the previous implementation */
+
+/* Form styles */
+.patient-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: transparent;
+}
+
+.patient-form .form-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.patient-form .form-column {
+  flex-basis: 48%;
+}
+
+.patient-form fieldset {
+  border: 0;
+  margin: 0;
+  padding: 10;
+}
+
+.patient-form legend {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.patient-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.patient-form input[type="text"],
+.patient-form input[type="email"],
+.patient-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.patient-form input[type="submit"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: #3e8e41;
+  color: white;
+  border: none;
+  width: 20rem;
+  margin: auto;
+  margin-top: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+#patient-id{
+  color: rgba(244, 244, 244, 0.362);
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+}
+
+.patient-form input[type="submit"]:hover,
+.referralSearchButton:hover {
+  background-color: #099288;
+}
+
+.patient-form input[type="submit"]:focus {
+  outline: none;
+}
+
