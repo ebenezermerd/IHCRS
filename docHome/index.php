@@ -124,6 +124,8 @@
 <div class="Homespace">
       <button class="left-button" id="referralAct">Referral Action</button>
       <button class="right-button" id="userMgmt">Manage patients</button> 
+      <button class="right-button" id="feedMgmt">Patients Feedback</button>  
+
     </div>
 
     <div class="welcomeText">
@@ -139,12 +141,17 @@
   <script>
   var referBtn = document.getElementById("referralAct");
   var userBtn = document.getElementById("userMgmt");
+  var feedBtn = document.getElementById("feedMgmt");
+
 
   referBtn.addEventListener("click", function() {
     window.location.href = "patientRefer/index.php";
   });
   userBtn.addEventListener("click", function() {
     window.location.href = "patientManagement/main_patient.php";
+  });
+  feedBtn.addEventListener("click", function() {
+    window.location.href = "../feedback/view_feedback.php";
   });
  
 </script>

@@ -145,6 +145,7 @@
   userBtn.addEventListener("click", function() {
     window.location.href = "patientManagement/main_patient.php";
   });
+
 </script>
 
   <!--  #FOOTER  -->
