@@ -7,7 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account | IHCRS</title>
-
+  <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgba(15, 151, 155, 0.804)',
+                        secondary: '#E0F2FE',
+                    }
+                }
+            }
+        }
+    </script>
  
 
   <!-- 
@@ -103,26 +115,29 @@
               </button>
           </div> -->
           
-          <div class="overlay-panel overlay-right">
-
-              <h1 class="title">WELCOME TO <br>LOGIN PAGE</h1>
-              <p>
-                  WHICH USER TYPE ARE YOU
-              </p>
-               
-              <select  name="opt" >
-              <option value="web" > WEBSITE ADMINISTRATOR</option>
-              <option  value="hospital" >HOSPITAL ADMINISTRATOR</option>
-              <option selected value="doctor" >DOCTOR</option>
-              <option selected value="user" >USER</option>
+          <div class="overlay-panel overlay-right rounded-r-2xl shadow-xl">
+            <h1 class="title text-4xl font-bold mb-6">WELCOME TO <br>LOGIN PAGE</h1>
+            <p class="text-lg mb-6 text-white/90">
+              PLEASE SELECT YOUR USER TYPE
+            </p>
+                   
+            <select name="opt" class="w-full px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm 
+              border border-white/30 text-white placeholder-white/70 
+              focus:outline-none focus:ring-2 focus:ring-white/50 
+              transition-all duration-300 cursor-pointer hover:bg-white/30">
+              <option value="web" class="text-gray-800">WEBSITE ADMINISTRATOR</option>
+              <option value="hospital" class="text-gray-800">HOSPITAL ADMINISTRATOR</option>
+              <option value="doctor" class="text-gray-800">DOCTOR</option>
+              <option value="user" class="text-gray-800">USER</option>
             </select>
-            
-                        
-           <!-- <button class="ghost" id="register"> Register
-                  <i class="lni lni-arrow-right register"></i>
-              </button> -->
-              
-          </div> </form>
+                
+            <!-- Keeping the commented button for reference -->
+            <!-- <button class="ghost" id="register"> Register
+              <i class="lni lni-arrow-right register"></i>
+            </button> -->
+                  
+          </div>
+          </form>
       </div>
 </div>
 <script src="script.js"></script>
