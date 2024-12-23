@@ -1,18 +1,38 @@
-<?php 
-  session_start();
+<?php
+session_start();
+require_once '../Account/conn.php';
+
+if (!isset($_SESSION['patient_id'])) {
+    header("Location: ../Account/login.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IHCRS</title>
-
- 
-
-  <!-- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgba(15, 151, 155, 0.804)',
+                        secondary: '#E0F2FE',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+      <!-- 
     - google font link
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,19 +43,15 @@
     <link rel="stylesheet" href="css/services.css">
 
   <link rel="stylesheet" href="css/style.css">
-
 </head>
-
-<body>
-
-
-  <!-- #HEADER STARTS HERE-->
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-primary to-white">
+      <!-- #HEADER STARTS HERE-->
 
   <header class="header" data-header>
     <div class="container">
 
       <a href="#" class="logo">
-        <img src="logo.png" width="250" height="46" alt="IHCRS">
+        <img src="../logo.png" width="250" height="46" alt="IHCRS">
       </a>
 
       <nav class="navbar" data-navbar>
@@ -128,37 +144,126 @@
   </header>
 <!--  #HEADER ENDS HERE -->
 
-<div class="wrapper">
- 
-  <!-- YOUR CODE PART-->
-    <div class="sessiontext"><h3>Welcome , <?php
-     echo $_SESSION["patient_name"]; ?>!</h3></div>
+    <div class="bg-white p-16 rounded-lg shadow-lg max-w-4xl w-full my-24 mt-[10%]">
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-2xl">
+            <?php 
+            echo $_SESSION['error'];
+            unset($_SESSION['error']);
+            ?>
+        </div>
+    <?php endif; ?>
 
-      <div class="grid-container">
-        <div class="grid-item">
-          <div class="item-overlay"></div>
-          <div class="item-content"> <a href="../Appointment/appoint.php">Appointments</a> </div>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 text-2xl">
+            <?php 
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+            ?>
         </div>
-        <div class="grid-item">
-          <div class="item-overlay"></div>
-          <div class="item-content"> <a href="../hospitalInfo/index.php">Hospitals & Professionals</a></div>
-        </div>
-        <div class="grid-item">
-          <div class="item-overlay"></div>
-          <div class="item-content"><a href="../patient_reffer/index.php">Referral Service</a></div>
-        </div>
-        <div class="grid-item">
-          <div class="item-overlay"></div>
-          <div class="item-content"><a href="../../feedback/feedback_form.php">Feedback Service</a></div>
+    <?php endif; ?>
+
+      <h1 class="text-5xl font-bold text-center text-primary mb-12">Rate Your Experience</h1>
+      <form method="POST" action="submit_feedback.php" class="space-y-12">
+      <input type="hidden" name="patient_id" value="<?php echo $_SESSION['patient_id']; ?>">
+      
+      <div class="mb-8">
+        <label for="doctor" class="block text-3xl font-medium text-gray-800 mb-4">Select Doctor</label>
+        <select name="doctor_id" id="doctor" required 
+          class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50 p-4 text-2xl text-gray-800">
+        <option value="" class="text-gray-800">Choose a doctor</option>
+        <?php
+        $sql = "SELECT id, Fname, Lname, Speciality FROM doctors";
+        $result = $conn->query($sql);
+        while($doctor = $result->fetch_assoc()) {
+          echo "<option value='" . $doctor['id'] . "' class='text-gray-800'>" . 
+           $doctor['Fname'] . " " . $doctor['Lname'] . 
+           " (" . $doctor['Speciality'] . ")</option>";
+        }
+        ?>
+        </select>
+      </div>
+      
+      <div class="star-rating flex justify-center space-x-6">
+        <input type="hidden" name="rating" id="rating" value="0">
+        <?php for ($i = 1; $i <= 5; $i++): ?>
+        <span class="star text-7xl cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors duration-200" data-value="<?php echo $i; ?>">
+          ★
+        </span>
+        <?php endfor; ?>
+      </div>
+      
+      <div class="relative">
+        <textarea 
+        name="feedback" 
+        placeholder="Share your experience..." 
+        required
+        class="w-full p-6 text-2xl border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none h-48 transition-all duration-200 text-gray-800"
+        ></textarea>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-6 pointer-events-none">
+        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+        </svg>
         </div>
       </div>
-      <div class="holder">
-      <div class="pic-below"></div>
+      
+      <button 
+        type="submit" 
+        class="w-full bg-primary text-white text-2xl font-bold py-6 px-8 rounded-lg hover:bg-primary/90 transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+      >
+        Submit Feedback
+      </button>
+      </form>
     </div>
-</div>
 
+    <script>
+      const stars = document.querySelectorAll('.star');
+      const ratingInput = document.getElementById('rating');
 
-  <!--  #FOOTER  -->
+      function setRating(rating) {
+      ratingInput.value = rating;
+      stars.forEach((star, index) => {
+        if (index < rating) {
+        star.classList.add('text-yellow-400');
+        } else {
+        star.classList.remove('text-yellow-400');
+        }
+      });
+      }
+
+      stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const rating = parseInt(star.dataset.value);
+        setRating(rating);
+      });
+
+      star.addEventListener('mouseover', () => {
+        const rating = parseInt(star.dataset.value);
+        stars.forEach((s, index) => {
+        if (index < rating) {
+          s.classList.add('text-yellow-400');
+        } else {
+          s.classList.remove('text-yellow-400');
+        }
+        });
+      });
+
+      star.addEventListener('mouseout', () => {
+        const currentRating = parseInt(ratingInput.value);
+        setRating(currentRating);
+      });
+
+      star.addEventListener('mouseover', () => {
+        star.style.animation = 'pulse 0.5s ease-in-out';
+      });
+
+      star.addEventListener('mouseout', () => {
+        star.style.animation = 'none';
+      });
+      });
+    </script>
+
+      <!--  #FOOTER  -->
 
   <footer class="footer" style="background-image: url('images/footer-bg.png')">
     <div class="container">
@@ -362,7 +467,6 @@
 <!--  #FOOTER ENDS HERE  -->
 
 
-
   <!--  #BACK TO TOP BUTTON -->
 
   <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
@@ -381,5 +485,5 @@
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </body>
-
 </html>
+

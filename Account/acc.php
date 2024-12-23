@@ -77,7 +77,7 @@
         </div>
     </form>
     </div>
-    <div class="form-container login-container">
+    <div class="form-container login-container text-black">
     <form class="login-form" method="post"  action="login.php">
           <h1>Login</h1>
          <p style="color: red;"></p>

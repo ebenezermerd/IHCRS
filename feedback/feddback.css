@@ -1,0 +1,39 @@
+.feedback-form {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 45px;
+    box-shadow: 2px 14px 28px rgba(34, 68, 68, 0.63);
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2.5rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label {
+    color: #48afc6;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
