@@ -53,7 +53,7 @@
         <ul class="navbar-list">
 
         <li class="navbar-item">
-            <a href="../home/index.php" class="navbar-link title-md">Home</a>
+            <a href="../index.php" class="navbar-link title-md">Home</a>
           </li>
 
           <li class="navbar-item">

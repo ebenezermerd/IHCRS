@@ -163,17 +163,14 @@ function login_user() {
   $result = $stmt->get_result();
   
   if ($result && mysqli_num_rows($result) == 1) {
-      $row = $result->fetch_assoc();
-      error_log("DB Password: " . $row["password"]);
-      error_log("Input Password: " . $password);
-      
+      $row = $result->fetch_assoc();      
       if ($password === $row["password"]) {
           $_SESSION["patient_name"] = $row["full_name"];
           $_SESSION["patient_id"] = $row["patient_id"];
           $_SESSION["ab"] = $_POST["opt"] ?? null;
           $_SESSION['loggedin'] = true;
           
-          header("location: ../services/index.php");
+          header("location: services/index.php");
           exit();
       }
   }
