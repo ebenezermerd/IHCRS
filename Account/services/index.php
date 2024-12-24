@@ -112,7 +112,7 @@
         <ion-icon name="menu-outline"></ion-icon>
       </button>
 
-      <a href="../appointment/appoint.php" class="btn has-before title-md">Make Appointment</a>
+      <a href="../Appointment/appoint.php" class="btn has-before title-md">Make Appointment</a>
      
       <div class="profile">
           <div class="profile-in">

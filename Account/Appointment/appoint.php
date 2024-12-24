@@ -171,6 +171,12 @@ $dbConnection->closeConnection();
       <select id="doctor" name="doctor" required>
         <option value="">Choose doctor</option>
       </select>
+      <div class="doctor-actions mt-4">
+    <button type="button" onclick="viewDoctorSchedule()" 
+            class="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80">
+        View Doctor's Schedule
+    </button>
+</div>
         <label for="date">Select Date:</label>
         <input type="date" id="date" name="date" required>
         <label for="time">Select Time:</label>
@@ -202,7 +208,19 @@ $dbConnection->closeConnection();
   </div>
   </div>
 </div>
-
+<script>
+function viewDoctorSchedule() {
+    const doctorSelect = document.getElementById('doctor');
+    const doctorId = doctorSelect.value;
+    
+    if (!doctorId) {
+        alert('Please select a doctor first');
+        return;
+    }
+    
+    window.location.href = 'view_doctor_schedule.php?doctor_id=' + doctorId;
+}
+</script>
 
 
   <!--  #FOOTER  -->
