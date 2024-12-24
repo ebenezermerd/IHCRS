@@ -42,11 +42,12 @@ if (!isset($_SESSION['doctor_id'])) {
                 <div id="calendar"></div>
             </div>
 
-            <!-- Restore the original sidebar -->
+            <!-- Update sidebar to show actual available slots -->
             <div class="md:col-span-4 bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-semibold mb-4 text-sky-600">Available Time Slots</h2>
                 <div id="availableSlots" class="space-y-2">
-                    <!-- Time slots will be populated here -->
+                    <!-- Loading message -->
+                    <div class="text-gray-500">Loading available slots...</div>
                 </div>
             </div>
         </div>
