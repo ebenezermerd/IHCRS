@@ -12,6 +12,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // Initialize draggable templates
+    var containerEl = document.getElementById('external-events');
+    new FullCalendar.Draggable(containerEl, {
+        itemSelector: '.fc-event',
+        eventData: function(eventEl) {
+            const duration = eventEl.dataset.duration || '01:00';
+            return {
+                title: 'Available',
+                duration: duration,
+                backgroundColor: '#0ea5e9',
+                textColor: '#ffffff',
+                extendedProps: {
+                    status: 'available'
+                }
+            };
+        }
+    });
+
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',
         headerToolbar: {
@@ -25,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
         selectable: true,
         selectMirror: true,
         events: 'fetch_slots.php',
+        editable: true, // Enable drag-and-drop for existing events
+        droppable: true, // Allow external drops
         dateClick: function(info) {
             // Handle date click
             const date = info.dateStr.split('T')[0];
@@ -44,6 +64,44 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventDidMount: function(info) {
             updateAvailableSlotsList();
+        },
+        eventDrop: function(info) {
+            // Handle event drag
+            updateSlot(info.event);
+        },
+        drop: function(info) {
+            const startTime = info.date;
+            const duration = info.draggedEl.dataset.duration || '01:00';
+            const [hours, minutes] = duration.split(':');
+            const endTime = new Date(startTime.getTime() + (hours * 60 + Number(minutes)) * 60000);
+
+            const formData = new FormData();
+            formData.append('date', startTime.toISOString().split('T')[0]);
+            formData.append('start_time', startTime.toTimeString().slice(0,5));
+            formData.append('end_time', endTime.toTimeString().slice(0,5));
+
+            fetch('save_slot.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    calendar.refetchEvents();
+                    updateAvailableSlotsList();
+                } else {
+                    alert(data.message || 'Error saving time slot');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving time slot');
+            });
+        },
+        eventReceive: function(info) {
+            // This handles the dropped event appearance
+            info.event.setProp('title', 'Available');
+            info.event.setProp('backgroundColor', '#0ea5e9');
         }
     });
 
@@ -163,4 +221,56 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('monthView').addEventListener('click', () => calendar.changeView('dayGridMonth'));
     document.getElementById('weekView').addEventListener('click', () => calendar.changeView('timeGridWeek'));
     document.getElementById('dayView').addEventListener('click', () => calendar.changeView('timeGridDay'));
+
+    function updateSlot(event) {
+        const startTime = event.start;
+        const endTime = event.end;
+
+        fetch('update_slot.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: event.id,
+                start: startTime.toISOString(),
+                end: endTime.toISOString()
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message || 'Failed to update time slot');
+                event.revert();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error updating time slot');
+            event.revert();
+        });
+    }
+
+    function saveSlot(slotData) {
+        fetch('save_slot.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(slotData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                calendar.refetchEvents();
+                updateAvailableSlotsList();
+            } else {
+                alert(data.message || 'Error saving time slot');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error saving time slot');
+        });
+    }
 });

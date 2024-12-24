@@ -44,10 +44,22 @@ if (!isset($_SESSION['doctor_id'])) {
 
             <!-- Update sidebar to show actual available slots -->
             <div class="md:col-span-4 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-semibold mb-4 text-sky-600">Available Time Slots</h2>
+                <h2 class="text-xl font-semibold mb-4 text-sky-600">Time Slot Templates</h2>
+                <div id="external-events" class="space-y-2">
+                    <!-- Draggable time slot templates -->
+                    <div class="fc-event bg-sky-100 p-3 rounded-lg cursor-move" data-duration="01:00">
+                        <p class="font-semibold text-sky-600">1 Hour Slot</p>
+                        <p class="text-sm text-sky-500">Drag to calendar</p>
+                    </div>
+                    <div class="fc-event bg-sky-100 p-3 rounded-lg cursor-move" data-duration="00:30">
+                        <p class="font-semibold text-sky-600">30 Min Slot</p>
+                        <p class="text-sm text-sky-500">Drag to calendar</p>
+                    </div>
+                </div>
+
+                <h2 class="text-xl font-semibold mb-4 mt-8 text-sky-600">Available Time Slots</h2>
                 <div id="availableSlots" class="space-y-2">
-                    <!-- Loading message -->
-                    <div class="text-gray-500">Loading available slots...</div>
+                    <!-- Available slots will be listed here -->
                 </div>
             </div>
         </div>

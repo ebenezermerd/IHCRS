@@ -6,14 +6,20 @@ if (!isset($_SESSION['doctor_id'])) {
     die(json_encode(['success' => false, 'message' => 'Not authorized']));
 }
 
-if (!isset($_POST['date']) || !isset($_POST['start_time']) || !isset($_POST['end_time'])) {
+// Accept both POST and JSON input
+$input = $_POST;
+if (empty($_POST)) {
+    $input = json_decode(file_get_contents('php://input'), true);
+}
+
+if (!isset($input['date']) || !isset($input['start_time']) || !isset($input['end_time'])) {
     die(json_encode(['success' => false, 'message' => 'Missing required fields']));
 }
 
 $doctor_id = $_SESSION['doctor_id'];
-$date = $_POST['date'];
-$start_time = $date . ' ' . $_POST['start_time'];
-$end_time = $date . ' ' . $_POST['end_time'];
+$date = $input['date'];
+$start_time = $date . ' ' . $input['start_time'];
+$end_time = $date . ' ' . $input['end_time'];
 
 // Validate times
 if (strtotime($end_time) <= strtotime($start_time)) {
@@ -41,7 +47,11 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("iss", $doctor_id, $start_time, $end_time);
 
 if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Time slot created successfully']);
+    echo json_encode([
+        'success' => true, 
+        'message' => 'Time slot created successfully',
+        'id' => $stmt->insert_id
+    ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Error creating time slot']);
 }
