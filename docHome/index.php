@@ -63,7 +63,9 @@
           <li class="navbar-item">
             <a href="#" class="navbar-link title-md">About us</a>
           </li>
-          
+          <li class="navbar-item">
+    <a href="schedule/index.php" class="navbar-link title-md">Manage Schedule</a>
+</li>
         </ul>
 
         <ul class="social-list">
