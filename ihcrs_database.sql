@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 23, 2024 at 03:24 PM
+-- Generation Time: Dec 24, 2024 at 05:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,6 +73,31 @@ INSERT INTO `doctors` (`id`, `Fname`, `Lname`, `Speciality`, `dob`, `Region`, `r
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `doctor_schedule`
+--
+
+CREATE TABLE `doctor_schedule` (
+  `id` int(11) NOT NULL,
+  `doctor_id` int(11) NOT NULL,
+  `start_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `status` enum('available','booked') DEFAULT 'available',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `doctor_schedule`
+--
+
+INSERT INTO `doctor_schedule` (`id`, `doctor_id`, `start_time`, `end_time`, `status`, `created_at`) VALUES
+(15, 1, '2024-12-26 09:30:00', '2024-12-26 11:00:00', 'available', '2024-12-24 03:37:52'),
+(16, 1, '2024-12-27 13:00:00', '2024-12-27 13:30:00', 'available', '2024-12-24 04:24:33'),
+(17, 1, '2024-12-28 14:00:00', '2024-12-28 14:30:00', 'available', '2024-12-24 04:24:36'),
+(18, 1, '2024-12-24 10:30:00', '2024-12-24 16:00:00', 'available', '2024-12-24 04:26:49');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hospital`
 --
 
@@ -128,6 +153,31 @@ INSERT INTO `patient` (`id`, `patient_id`, `full_name`, `age`, `birth_date`, `lo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `patient_feedback`
+--
+
+CREATE TABLE `patient_feedback` (
+  `id` int(11) NOT NULL,
+  `patient_id` varchar(20) DEFAULT NULL,
+  `rating` int(11) NOT NULL,
+  `feedback` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `doctor_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patient_feedback`
+--
+
+INSERT INTO `patient_feedback` (`id`, `patient_id`, `rating`, `feedback`, `created_at`, `doctor_id`) VALUES
+(1, 'P002', 4, 'hoasfuiojfioe', '2024-12-23 20:19:47', NULL),
+(5, 'P002', 2, 'mkmkkop, k opl,pk,pm,p,l;', '2024-12-23 22:18:15', 2),
+(6, 'P002', 3, 's', '2024-12-23 22:19:47', 2),
+(7, 'P002', 5, 'jjmj', '2024-12-23 22:22:04', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `patient_referral`
 --
 
@@ -172,6 +222,13 @@ ALTER TABLE `doctors`
   ADD KEY `idx_speciality` (`Speciality`);
 
 --
+-- Indexes for table `doctor_schedule`
+--
+ALTER TABLE `doctor_schedule`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `doctor_id` (`doctor_id`);
+
+--
 -- Indexes for table `hospital`
 --
 ALTER TABLE `hospital`
@@ -186,6 +243,14 @@ ALTER TABLE `patient`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `patient_id` (`patient_id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `patient_feedback`
+--
+ALTER TABLE `patient_feedback`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `doctor_id` (`doctor_id`);
 
 --
 -- Indexes for table `patient_referral`
@@ -212,6 +277,12 @@ ALTER TABLE `doctors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `doctor_schedule`
+--
+ALTER TABLE `doctor_schedule`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
 -- AUTO_INCREMENT for table `hospital`
 --
 ALTER TABLE `hospital`
@@ -222,6 +293,12 @@ ALTER TABLE `hospital`
 --
 ALTER TABLE `patient`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `patient_feedback`
+--
+ALTER TABLE `patient_feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `patient_referral`
@@ -245,6 +322,19 @@ ALTER TABLE `appointment_book`
 --
 ALTER TABLE `doctors`
   ADD CONSTRAINT `doctors_ibfk_1` FOREIGN KEY (`hospital_id`) REFERENCES `hospital` (`id`);
+
+--
+-- Constraints for table `doctor_schedule`
+--
+ALTER TABLE `doctor_schedule`
+  ADD CONSTRAINT `doctor_schedule_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`);
+
+--
+-- Constraints for table `patient_feedback`
+--
+ALTER TABLE `patient_feedback`
+  ADD CONSTRAINT `patient_feedback_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`),
+  ADD CONSTRAINT `patient_feedback_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`);
 
 --
 -- Constraints for table `patient_referral`
